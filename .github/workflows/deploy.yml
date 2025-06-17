@@ -40,7 +40,7 @@ jobs:
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
-          key: ${{ secrets.FTP_PASSWORD }}
+          key: ${{ secrets.SFTP_KEY }}
           port: 22
           source: "."
           target: "/var/www/html/"
