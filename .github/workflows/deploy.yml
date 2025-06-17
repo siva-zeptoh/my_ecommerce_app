@@ -35,13 +35,16 @@ jobs:
           php artisan view:clear
           php artisan route:clear 
 
-      - name: 🚀 Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: 📤 SFTP Upload to Server
+        uses: appleboy/scp-action@v0.1.7
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /var/www/html/ # change as per hosting path
+          host: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          key: ${{ secrets.FTP_KEY }}
+          port: 22
+          source: "."
+          target: "/var/www/html/"
+          strip_components: 1
           exclude: |
             .env
             .git*
