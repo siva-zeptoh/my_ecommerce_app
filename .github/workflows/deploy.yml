@@ -35,10 +35,6 @@ jobs:
           php artisan view:clear
           php artisan route:clear 
 
-      - name: Migrate DB Changes 
-        run: |
-          php artisan migrate  
-
       - name: 🚀 Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
