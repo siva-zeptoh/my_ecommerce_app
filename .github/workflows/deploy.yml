@@ -45,7 +45,7 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/ # change as per hosting path
+          server-dir: /var/www/html/ # change as per hosting path
           exclude: |
             .env
             .git*
