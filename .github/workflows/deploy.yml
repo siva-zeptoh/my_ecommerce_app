@@ -1,0 +1,54 @@
+name: 🚀 Deploy Laravel App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: FTP Deploy Job
+    runs-on: ubuntu-latest 
+    steps:
+      - name: ⏬ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🧹 Install PHP & Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, bcmath, intl, mysql, dom, fileinfo, openssl, pdo
+          coverage: none
+
+      - name: 📦 Install Composer Dependencies
+        run: |
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: 🔐 Set Permissions for Writable Directories
+        run: |
+          chmod -R 775 storage bootstrap/cache
+
+      - name: 🧪 Run Cache Clear
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan view:clear
+          php artisan route:clear 
+
+      - name: Migrate DB Changes 
+        run: |
+          php artisan migrate  
+
+      - name: 🚀 Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html/ # change as per hosting path
+          exclude: |
+            .env
+            .git*
+            node_modules/
+            tests/
+            .github/
