@@ -45,9 +45,3 @@ jobs:
           source: "."
           target: "/var/www/html/"
           strip_components: 1
-          exclude: |
-            .env
-            .git*
-            node_modules/
-            tests/
-            .github/
